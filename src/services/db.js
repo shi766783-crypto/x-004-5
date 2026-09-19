@@ -8,7 +8,8 @@ const KEYS = {
   records: 'hmm.records',
   technicians: 'hmm.technicians',
   reviews: 'hmm.reviews',
-  user: 'hmm.user'
+  user: 'hmm.user',
+  settings: 'hmm.settings'
 }
 
 export const itemRepo = {
@@ -34,4 +35,10 @@ export const reviewRepo = {
 export const userRepo = {
   get: () => load(KEYS.user, []),
   set: (list) => save(KEYS.user, list)
+}
+
+// 用户设置：当前仅有每月预算（元），0 / 缺省表示未设置
+export const settingsRepo = {
+  get: () => load(KEYS.settings, {}),
+  set: (settings) => save(KEYS.settings, settings)
 }

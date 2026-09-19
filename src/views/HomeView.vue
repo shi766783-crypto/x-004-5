@@ -5,8 +5,10 @@ import { useRecordStore } from '@/stores/records'
 import { useTechnicianStore } from '@/stores/technicians'
 import { getUrgency } from '@/utils/date'
 import { fmtMoney } from '@/utils/format'
+import { costOfMonth } from '@/utils/budget'
 import ReminderList from '@/components/reminder/ReminderList.vue'
 import RecordForm from '@/components/record/RecordForm.vue'
+import BudgetCard from '@/components/dashboard/BudgetCard.vue'
 import BaseModal from '@/components/common/BaseModal.vue'
 import EmptyState from '@/components/common/EmptyState.vue'
 
@@ -20,13 +22,7 @@ const presetItemId = ref('')
 const overdueCount = computed(() => itemStore.items.filter((i) => getUrgency(i) === 'overdue').length)
 const dueSoonCount = computed(() => itemStore.items.filter((i) => getUrgency(i) === 'dueSoon').length)
 
-const monthCost = computed(() => {
-  const now = new Date()
-  const m = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
-  return recordStore.records
-    .filter((r) => r.date && r.date.startsWith(m))
-    .reduce((s, r) => s + (Number(r.cost) || 0), 0)
-})
+const monthCost = computed(() => costOfMonth(recordStore.records))
 
 function openRecord(item) {
   presetItemId.value = item.id
@@ -70,6 +66,8 @@ function onSave(payload) {
         <div class="stat-value accent">¥{{ fmtMoney(monthCost) }}</div>
       </div>
     </section>
+
+    <BudgetCard />
 
     <section class="card">
       <h3>待保养 / 待维修提醒</h3>

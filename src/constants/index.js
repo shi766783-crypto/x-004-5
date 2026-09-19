@@ -39,6 +39,8 @@ export const PALETTE = [
 export const DUE_SOON_DAYS = 7
 // 保修即将到期的提醒阈值（天数）
 export const WARRANTY_SOON_DAYS = 30
+// 月度预算预警比例：达到该比例视为"接近预算"
+export const BUDGET_WARN_RATIO = 0.8
 
 export function categoryOf(value) {
   return CATEGORIES.find((c) => c.value === value) || CATEGORIES[CATEGORIES.length - 1]

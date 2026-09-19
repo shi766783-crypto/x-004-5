@@ -7,6 +7,7 @@ import { categoryOf, PALETTE } from '@/constants'
 import { fmtMoney } from '@/utils/format'
 import PieChart from '@/components/dashboard/PieChart.vue'
 import BarChart from '@/components/dashboard/BarChart.vue'
+import BudgetCard from '@/components/dashboard/BudgetCard.vue'
 import EmptyState from '@/components/common/EmptyState.vue'
 
 const recordStore = useRecordStore()
@@ -94,6 +95,8 @@ const techOrders = computed(() =>
         <div class="stat-value">¥{{ fmtMoney(avgCost) }}</div>
       </div>
     </section>
+
+    <BudgetCard />
 
     <template v-if="recordStore.records.length">
       <section class="card">
