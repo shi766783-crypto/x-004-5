@@ -9,6 +9,7 @@ import ReminderList from '@/components/reminder/ReminderList.vue'
 import RecordForm from '@/components/record/RecordForm.vue'
 import BaseModal from '@/components/common/BaseModal.vue'
 import EmptyState from '@/components/common/EmptyState.vue'
+import BudgetCard from '@/components/dashboard/BudgetCard.vue'
 
 const itemStore = useItemStore()
 const recordStore = useRecordStore()
@@ -70,6 +71,8 @@ function onSave(payload) {
         <div class="stat-value accent">¥{{ fmtMoney(monthCost) }}</div>
       </div>
     </section>
+
+    <BudgetCard :spent="monthCost" />
 
     <section class="card">
       <h3>待保养 / 待维修提醒</h3>

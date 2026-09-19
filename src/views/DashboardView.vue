@@ -7,6 +7,7 @@ import { categoryOf, PALETTE } from '@/constants'
 import { fmtMoney } from '@/utils/format'
 import PieChart from '@/components/dashboard/PieChart.vue'
 import BarChart from '@/components/dashboard/BarChart.vue'
+import BudgetCard from '@/components/dashboard/BudgetCard.vue'
 import EmptyState from '@/components/common/EmptyState.vue'
 
 const recordStore = useRecordStore()
@@ -16,6 +17,15 @@ const technicianStore = useTechnicianStore()
 const year = new Date().getFullYear()
 
 const totalCost = computed(() => recordStore.records.reduce((s, r) => s + (Number(r.cost) || 0), 0))
+
+// 本月累计花费，用于预算使用情况展示
+const monthCost = computed(() => {
+  const now = new Date()
+  const m = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+  return recordStore.records
+    .filter((r) => r.date && r.date.startsWith(m))
+    .reduce((s, r) => s + (Number(r.cost) || 0), 0)
+})
 
 const maintenanceYear = computed(
   () =>
@@ -94,6 +104,8 @@ const techOrders = computed(() =>
         <div class="stat-value">¥{{ fmtMoney(avgCost) }}</div>
       </div>
     </section>
+
+    <BudgetCard :spent="monthCost" />
 
     <template v-if="recordStore.records.length">
       <section class="card">
